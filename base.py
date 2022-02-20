@@ -1,18 +1,15 @@
 from typing import Iterable
 from functools import reduce
 
-
 class Task:
     BASE_TYPE = int
     OPERATORS = {"+": BASE_TYPE.__add__,
                  "-": BASE_TYPE.__sub__,
-                 # "*": BASE_TYPE.__mul__,
-                 # "/": BASE_TYPE.__truediv__,
                  }
 
-    def __init__(self, operands: Iterable[int], operator_symb: str, need_ans: bool = False) -> None:
+    def __init__(self, operands: Iterable[int], operator: str, need_ans: bool = False) -> None:
         self.operands = operands
-        self.operator = operator_symb
+        self.operator = operator
         self.operator_func = self.OPERATORS[self.operator]
         self.need_ans = need_ans
         self._answer_ = None
@@ -41,12 +38,3 @@ class Task:
 
     def __repr__(self):
         return self.__call__()
-
-
-if __name__ == '__main__':
-    task1 = Task([123, 321], "-", need_ans=True)
-    task2 = Task([123, 321], "+", need_ans=True)
-    task3 = Task([121, 4221], "+", need_ans=True)
-
-    for row in zip(task1(), task2(), task3()):
-        print("    ".join(row))
