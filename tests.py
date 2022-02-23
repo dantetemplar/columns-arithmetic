@@ -58,7 +58,8 @@ class ArrangerTest(TestCase):
 
     def test_all(self):
         for name, (args, output) in self.testcases.items():
-            self.assertEqual(arithmetic_arranger(*args), output)
+            self.assertEqual(arithmetic_arranger(*args), output, name)
+
 
 if __name__ == '__main__':
     main()

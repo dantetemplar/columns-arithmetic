@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import List
 from functools import reduce
 
 
@@ -8,7 +8,7 @@ class Task:
                  "-": BASE_TYPE.__sub__,
                  }
 
-    def __init__(self, operands: Iterable[int], operator: str, need_ans: bool = False) -> None:
+    def __init__(self, operands: List[int], operator: str, need_ans: bool = False) -> None:
         self.operands = operands
         self.operator = operator
         self.operator_func = self.OPERATORS[self.operator]

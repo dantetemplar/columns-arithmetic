@@ -3,15 +3,11 @@ from typing import Iterable
 import re
 
 
-class Error(Exception):
-    pass
-
-
 class RULES:
     @staticmethod
     def search(search):
         if search is None:
-            raise Error("Operator must be '+' or '-'.")
+            raise Exception("Operator must be '+' or '-'.")
         groups = search.groups()
         RULES.operand(groups[0])
         RULES.operator(groups[1])
@@ -20,20 +16,20 @@ class RULES:
     @staticmethod
     def problems(problems: list or tuple):
         if len(problems) > 5:
-            raise Error("Too many problems.")
+            raise Exception("Too many problems.")
 
     @staticmethod
     def operator(operator: str):
         if operator not in ["+", "-"]:
-            raise Error("Operator must be '+' or '-'.")
+            raise Exception("Operator must be '+' or '-'.")
 
     @staticmethod
     def operand(operand: str):
         if not operand.isdigit():
-            raise Error("Numbers must only contain digits.")
+            raise Exception("Numbers must only contain digits.")
 
         if len(operand) > 4:
-            raise Error("Numbers cannot be more than four digits.")
+            raise Exception("Numbers cannot be more than four digits.")
 
 
 def parse(problem: str):
@@ -50,16 +46,11 @@ def parse(problem: str):
 def arithmetic_arranger(problems: Iterable[str], need_ans: bool = False):
     try:
         RULES.problems(problems)
-        tasks = []
-        for problem in problems:
-            tasks.append(Task(**parse(problem), need_ans=need_ans)())
-
-        arranged_problems = []
-        for row in zip(*tasks):
-            arranged_problems.append("    ".join(row))
+        tasks = [Task(**parse(problem), need_ans=need_ans)() for problem in problems]
+        arranged_problems = ["    ".join(row) for row in zip(*tasks)]
 
         return "\n".join(arranged_problems if need_ans else arranged_problems[:-1])
-    except Error as error:
+    except Exception as error:
         return f"Error: {error.args[0]}"
 
 
